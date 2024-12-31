@@ -3,16 +3,16 @@ pipeline {
 
     environment {
         // Define environment variables for the project
-        APP_NAME = "product-search-service"
-        MAVEN_HOME = tool name: 'M3', type: 'ToolLocation'
-        JAVA_HOME = tool name: 'JDK11', type: 'ToolLocation'
+        APP_NAME = "search-engine"
+        MAVEN_HOME = tool name: 'Maven 3.9.9', type: 'ToolLocation'
+        JAVA_HOME = tool name: 'JDK17', type: 'ToolLocation'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the code from Git repository
-                git 'https://github.com/your-username/your-repo.git'
+                git 'https://github.com/farafatima44/jenkins.git'
             }
         }
 
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 // Use Maven to build the application
                 script {
-                    sh "'${MAVEN_HOME}/bin/mvn' clean install"
+                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn/bin/mvn' clean install"
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 // Run unit tests using Maven
                 script {
-                    sh "'${MAVEN_HOME}/bin/mvn' test"
+                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn/bin/mvn' test"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 // Package the application into a JAR file
                 script {
-                    sh "'${MAVEN_HOME}/bin/mvn' package"
+                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn' package"
                 }
             }
         }
@@ -48,7 +48,8 @@ pipeline {
                 // Deploy the application to your server or environment
                 // Here we assume deploying to a local server as an example
                 script {
-                    sh "java -jar target/${APP_NAME}-0.0.1-SNAPSHOT.jar &"
+                    bat "java -jar target\\${APP_NAME}-0.0.1-SNAPSHOT.jar"
+
                 }
             }
         }
