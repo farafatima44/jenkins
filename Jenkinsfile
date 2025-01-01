@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define environment variables for the project
         APP_NAME = "search-engine"
-        MAVEN_HOME = tool name: 'M3', type: 'ToolLocation'
+        MAVEN_HOME = tool name: 'Maven 3.9', type: 'ToolLocation'
         JAVA_HOME = tool name: 'JDK17', type: 'ToolLocation'
     }
 
