@@ -4,9 +4,8 @@ pipeline {
     environment {
         // Define environment variables for the project
         APP_NAME = "search-engine"
-        MAVEN_HOME = tool name: '(Maven) 3.9.9', type: 'ToolLocation'
+        MAVEN_HOME = tool name: 'Maven 3.9.9', type: 'ToolLocation'
         JAVA_HOME = tool name: 'JDK17', type: 'ToolLocation'
-         PATH = "$C:/Program Files/apache-maven-3.9.9/bin"
     }
 
     stages {
@@ -21,7 +20,7 @@ pipeline {
             steps {
                 // Use Maven to build the application
                 script {
-                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn' clean install"
+                    bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" clean install'
                 }
             }
         }
@@ -30,7 +29,7 @@ pipeline {
             steps {
                 // Run unit tests using Maven
                 script {
-                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn' test"
+                    bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" test'
                 }
             }
         }
@@ -39,7 +38,7 @@ pipeline {
             steps {
                 // Package the application into a JAR file
                 script {
-                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn' package"
+                    bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" package'
                 }
             }
         }
@@ -47,10 +46,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Deploy the application to your server or environment
-                // Here we assume deploying to a local server as an example
                 script {
                     bat "java -jar target\\${APP_NAME}-0.0.1-SNAPSHOT.jar"
-
                 }
             }
         }
