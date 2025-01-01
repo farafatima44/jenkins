@@ -21,7 +21,7 @@ pipeline {
             steps {
                 // Use Maven to build the application
                 script {
-                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn/bin/mvn' clean install"
+                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn' clean install"
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 // Run unit tests using Maven
                 script {
-                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn/bin/mvn' test"
+                    bat "'$C:/Program Files/apache-maven-3.9.9/bin/mvn' test"
                 }
             }
         }
