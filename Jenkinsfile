@@ -6,6 +6,7 @@ pipeline {
         APP_NAME = "search-engine"
         MAVEN_HOME = tool name: '(Maven) 3.9.9', type: 'ToolLocation'
         JAVA_HOME = tool name: 'JDK17', type: 'ToolLocation'
+         PATH = "$C:\Program Files\apache-maven-3.9.9\bin"
     }
 
     stages {
