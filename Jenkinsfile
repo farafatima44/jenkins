@@ -1,11 +1,8 @@
-pipeline { 
+pipeline {
     agent any
 
     environment {
-        // Define environment variables for the project
         APP_NAME = "search-engine"
-        MAVEN_HOME = tool name: 'Maven 3.9.9', type: 'ToolLocation'
-        JAVA_HOME = tool name: 'JDK17', type: 'ToolLocation'
     }
 
     stages {
@@ -16,51 +13,38 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build & Test') {
             steps {
-                // Use Maven to build the application
+                // Run Maven build and tests in one step
                 script {
-                    bat "\"${MAVEN_HOME}/bin/mvn\" clean install"
-                }
-            }
-        }
-
-        stage('Unit Tests') {
-            steps {
-                // Run unit tests using Maven
-                script {
-                    bat "\"${MAVEN_HOME}/bin/mvn\" test"
+                    bat 'mvn clean install' // For Unix/Linux-based systems
+                    // bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" clean install' // For Windows-based systems
                 }
             }
         }
 
         stage('Package') {
             steps {
-                // Package the application into a JAR file
+                // Package the application
                 script {
-                    bat "\"${MAVEN_HOME}/bin/mvn\" package"
+                    bat 'mvn package' // For Unix/Linux-based systems
+                    // bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" package' // For Windows-based systems
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy the application to your server or environment
+                // Deploy the application by running the JAR file
                 script {
-                    def jarFile = "target\\${APP_NAME}-0.0.1-SNAPSHOT.jar"
+                    def jarFile = "target/${APP_NAME}-0.0.1-SNAPSHOT.jar"
                     if (fileExists(jarFile)) {
-                        bat "java -jar ${jarFile}"
+                        bat "java -jar ${jarFile}" // For Unix/Linux-based systems
+                        // bat "java -jar target\\${APP_NAME}-0.0.1-SNAPSHOT.jar" // For Windows-based systems
                     } else {
                         error "JAR file not found. Deployment failed."
                     }
                 }
-            }
-        }
-
-        stage('Cleanup') {
-            steps {
-                // Clean up workspace (optional)
-                cleanWs()
             }
         }
     }
