@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the repository
-                git 'https://github.com/farafatima44/jenkins.git'
+                    git branch: 'main', url: 'https://github.com/farafatima44/jenkins.git'
             }
         }
 
