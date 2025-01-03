@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
 
     environment {
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 // Use Maven to build the application
                 script {
-                    bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" clean install'
+                    bat "\"${MAVEN_HOME}/bin/mvn\" clean install"
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 // Run unit tests using Maven
                 script {
-                    bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" test'
+                    bat "\"${MAVEN_HOME}/bin/mvn\" test"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 // Package the application into a JAR file
                 script {
-                    bat '"C:/Program Files/apache-maven-3.9.9/bin/mvn" package'
+                    bat "\"${MAVEN_HOME}/bin/mvn\" package"
                 }
             }
         }
@@ -47,7 +47,12 @@ pipeline {
             steps {
                 // Deploy the application to your server or environment
                 script {
-                    bat "java -jar target\\${APP_NAME}-0.0.1-SNAPSHOT.jar"
+                    def jarFile = "target\\${APP_NAME}-0.0.1-SNAPSHOT.jar"
+                    if (fileExists(jarFile)) {
+                        bat "java -jar ${jarFile}"
+                    } else {
+                        error "JAR file not found. Deployment failed."
+                    }
                 }
             }
         }
