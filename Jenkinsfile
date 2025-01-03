@@ -2,52 +2,36 @@ pipeline {
     agent any
 
     environment {
-        // Define environment variables for the project
-        APP_NAME = "search-engine"
-        MAVEN_HOME = tool name: 'Maven 3.9.9', type: 'ToolLocation'
-        JAVA_HOME = tool name: 'JDK17', type: 'ToolLocation'
+        APP_NAME = 'search-engine'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from Git repository (ensure the branch is correct)
-                git branch: 'main', url: 'https://github.com/farafatima44/jenkins.git'
+                // Checkout the code from the repository
+                git 'https://github.com/farafatima44/jenkins.git'
             }
         }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
-                // Use Maven to build the application
-                script {
-                    bat '"${MAVEN_HOME}\\bin\\mvn" clean install'
-                }
-            }
-        }
-
-        stage('Unit Tests') {
-            steps {
-                // Run unit tests using Maven
-                script {
-                    bat '"${MAVEN_HOME}\\bin\\mvn" test'
-                }
+                // Use Maven to clean, build, and test all in one step
+                bat 'mvn clean install'
             }
         }
 
         stage('Package') {
             steps {
                 // Package the application into a JAR file
-                script {
-                    bat '"${MAVEN_HOME}\\bin\\mvn" package'
-                }
+                bat 'mvn package'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy the application to your server or environment
+                // Deploy the application by running the JAR file
                 script {
-                    def jarFile = "target\\${APP_NAME}-0.0.1-SNAPSHOT.jar"
+                    def jarFile = "target/${APP_NAME}-0.0.1-SNAPSHOT.jar"
                     if (fileExists(jarFile)) {
                         bat "java -jar ${jarFile}"
                     } else {
@@ -59,7 +43,7 @@ pipeline {
 
         stage('Cleanup') {
             steps {
-                // Clean up workspace (optional)
+                // Clean up the workspace after deployment
                 cleanWs()
             }
         }
